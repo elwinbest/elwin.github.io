@@ -1,2 +1,0 @@
-# elwin.github.io
-deneme
