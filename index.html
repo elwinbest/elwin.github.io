@@ -7,10 +7,11 @@
 
 <style>
 :root{
-  --main:#b58cff;
-  --light:#ffffff;
-  --dark:#05020a;
-  --glow:rgba(181,140,255,.9);
+  --violet:#8f6bff;
+  --gold:#ffd98a;
+  --white:#ffffff;
+  --dark:#05010a;
+  --glow:rgba(160,120,255,.9);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -18,14 +19,27 @@
 body{
   height:100vh;
   background:
-    radial-gradient(circle at top,var(--main),#160a2a 55%,#000 100%);
-  font-family:Segoe UI, monospace;
+    radial-gradient(circle at 20% 10%,#2a144f,transparent 40%),
+    radial-gradient(circle at 80% 80%,#1a0b33,transparent 45%),
+    linear-gradient(180deg,#020006,#000);
+  font-family:Inter,Segoe UI,monospace;
   overflow:hidden;
   cursor:none;
   color:white;
 }
 
-/* LOADER */
+/* CINEMATIC NOISE */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:.06;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* LOADING */
 #loader{
   position:fixed;
   inset:0;
@@ -35,42 +49,42 @@ body{
   align-items:center;
   z-index:50;
 }
-#loader h1{
-  font-size:64px;
-  letter-spacing:12px;
-  background:linear-gradient(120deg,#fff,var(--main),#fff);
+#loader span{
+  font-size:70px;
+  letter-spacing:14px;
+  background:linear-gradient(120deg,#fff,var(--violet),#fff);
   background-size:300%;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:gold 2s linear infinite;
+  animation:shine 2s linear infinite;
 }
-@keyframes gold{to{background-position:300%}}
+@keyframes shine{to{background-position:300%}}
 
-/* LIGHT WAVES */
-.lightwave{
-  position:fixed;
-  inset:-50%;
-  background:
-    radial-gradient(circle at 25% 30%,rgba(255,255,255,.15),transparent 50%),
-    radial-gradient(circle at 75% 70%,rgba(181,140,255,.25),transparent 55%);
-  animation:wave 35s infinite alternate ease-in-out;
-  z-index:-5;
-}
-@keyframes wave{
-  to{transform:translate(15%,20%) rotate(10deg)}
-}
-
-/* CUSTOM CURSOR */
+/* CURSOR */
 .cursor{
   position:fixed;
-  width:14px;
-  height:14px;
+  width:16px;
+  height:16px;
   border-radius:50%;
-  background:radial-gradient(circle,#fff,var(--main));
-  box-shadow:0 0 35px var(--glow);
-  pointer-events:none;
+  background:radial-gradient(circle,#fff,var(--violet));
+  box-shadow:0 0 45px var(--glow);
   transform:translate(-50%,-50%);
+  pointer-events:none;
   z-index:999;
+}
+
+/* AMBIENT LIGHT */
+.ambient{
+  position:fixed;
+  inset:-60%;
+  background:
+    radial-gradient(circle at 30% 40%,rgba(255,255,255,.12),transparent 45%),
+    radial-gradient(circle at 70% 60%,rgba(160,120,255,.25),transparent 50%);
+  animation:float 50s alternate infinite ease-in-out;
+  z-index:0;
+}
+@keyframes float{
+  to{transform:translate(20%,15%) rotate(8deg)}
 }
 
 /* MAIN */
@@ -80,50 +94,57 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  z-index:5;
+  position:relative;
 }
 
-/* CARD */
-.card{
-  width:420px;
-  padding:55px 35px;
-  border-radius:45px;
-  background:rgba(255,255,255,.06);
-  backdrop-filter:blur(45px);
+/* GLASS FRAME */
+.frame{
+  width:440px;
+  padding:60px 40px;
+  border-radius:50px;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  backdrop-filter:blur(50px);
   box-shadow:
-    0 0 220px rgba(181,140,255,.45),
-    inset 0 0 80px rgba(255,255,255,.08);
+    0 0 260px rgba(160,120,255,.45),
+    inset 0 0 90px rgba(255,255,255,.08);
   text-align:center;
-  position:relative;
 }
 
 /* AVATAR */
 .avatar{
-  width:170px;
-  height:170px;
-  border-radius:50%;
-  padding:4px;
-  background:conic-gradient(#fff,var(--main),#fff);
+  width:180px;
+  height:180px;
   margin:auto;
-  transition:.4s;
+  border-radius:50%;
+  padding:5px;
+  background:conic-gradient(var(--white),var(--violet),var(--gold),var(--white));
+  box-shadow:0 0 120px var(--glow);
 }
 .avatar img{
   width:100%;
   height:100%;
   border-radius:50%;
   object-fit:cover;
-}
-.avatar:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 80px var(--glow);
+  filter:contrast(1.05);
 }
 
 /* NAME */
-h2{
-  margin-top:20px;
-  font-size:40px;
-  background:linear-gradient(120deg,#fff,var(--main));
+h1{
+  margin-top:25px;
+  font-size:42px;
+  letter-spacing:2px;
+  background:linear-gradient(120deg,#fff,var(--violet),var(--gold));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
+}
+
+/* TAGLINE */
+.tag{
+  margin-top:10px;
+  font-size:14px;
+  letter-spacing:3px;
+  opacity:.75;
 }
 
 /* LINKS */
@@ -131,56 +152,85 @@ h2{
   margin-top:35px;
   display:flex;
   flex-direction:column;
-  gap:16px;
+  gap:18px;
 }
 .links a{
   text-decoration:none;
-  padding:14px;
-  border-radius:20px;
-  color:var(--main);
-  border:1px solid rgba(181,140,255,.45);
+  padding:15px;
+  border-radius:22px;
+  color:var(--gold);
+  border:1px solid rgba(255,215,150,.45);
   transition:.35s;
+  position:relative;
+  overflow:hidden;
+}
+.links a::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.3),transparent);
+  transform:translateX(-100%);
+}
+.links a:hover::before{
+  animation:sweep .6s forwards;
+}
+@keyframes sweep{
+  to{transform:translateX(100%)}
 }
 .links a:hover{
   color:white;
-  box-shadow:0 0 45px var(--glow);
+  box-shadow:0 0 55px var(--glow);
 }
 
 /* WATCHING EYES */
 .eye{
   position:fixed;
-  width:120px;
-  height:60px;
+  width:110px;
+  height:55px;
   border-radius:50%;
-  background:rgba(0,0,0,.7);
-  box-shadow:0 0 40px var(--glow);
+  background:rgba(0,0,0,.75);
+  box-shadow:0 0 45px var(--glow);
   opacity:0;
   pointer-events:none;
-  z-index:6;
+  z-index:4;
 }
 .eye .pupil{
   position:absolute;
-  width:18px;
-  height:18px;
+  width:16px;
+  height:16px;
   background:white;
   border-radius:50%;
   top:50%;
   left:50%;
 }
 
+/* SHADOW ENTITY */
+.entity{
+  position:fixed;
+  bottom:-120px;
+  left:50%;
+  width:420px;
+  height:420px;
+  background:radial-gradient(circle,rgba(0,0,0,.6),transparent 70%);
+  transform:translateX(-50%);
+  opacity:.2;
+  filter:blur(35px);
+  z-index:2;
+}
+
 /* RAVEN */
 .raven{
   position:fixed;
-  width:140px;
-  height:80px;
+  width:160px;
+  height:90px;
   background:url("raven.png") center/contain no-repeat;
-  opacity:.35;
-  filter:drop-shadow(0 0 30px var(--glow));
-  animation:fly 12s linear forwards;
-  z-index:4;
+  opacity:.3;
+  filter:drop-shadow(0 0 40px var(--glow));
+  animation:fly 14s linear forwards;
+  z-index:3;
 }
 @keyframes fly{
-  from{transform:translateX(-200px)}
+  from{transform:translateX(-220px)}
   to{transform:translateX(120vw)}
 }
 </style>
@@ -188,16 +238,18 @@ h2{
 
 <body>
 
-<div id="loader"><h1>ELWINCAN</h1></div>
-<div class="lightwave"></div>
+<div id="loader"><span>ELWINCAN</span></div>
+<div class="ambient"></div>
 <div class="cursor" id="cursor"></div>
+<div class="entity"></div>
 
 <div id="main">
-  <div class="card">
+  <div class="frame">
     <div class="avatar">
-      <img src="profil.jpg" alt="profil">
+      <img src="profil.jpg">
     </div>
-    <h2>elwincan</h2>
+    <h1>elwincan</h1>
+    <div class="tag">DIGITAL PRESENCE</div>
 
     <div class="links">
       <a href="#">Discord</a>
@@ -212,7 +264,7 @@ h2{
 </audio>
 
 <script>
-/* LOADER */
+/* LOAD */
 setTimeout(()=>{
   loader.style.display="none";
   main.style.display="flex";
@@ -245,25 +297,25 @@ function spawnEye(){
     const r=eye.getBoundingClientRect();
     const dx=mx-(r.left+r.width/2);
     const dy=my-(r.top+r.height/2);
-    pupil.style.transform=`translate(${dx*0.12}px,${dy*0.12}px)`;
+    pupil.style.transform=`translate(${dx*0.1}px,${dy*0.1}px)`;
   },20);
 
   setTimeout(()=>{
     clearInterval(follow);
     eye.remove();
-  },8500);
+  },8000);
 }
-setInterval(spawnEye,1500);
+setInterval(spawnEye,1400);
 
 /* RAVENS */
 function spawnRaven(){
   const r=document.createElement("div");
   r.className="raven";
-  r.style.top=Math.random()*70+"vh";
+  r.style.top=Math.random()*65+"vh";
   document.body.appendChild(r);
-  setTimeout(()=>r.remove(),12000);
+  setTimeout(()=>r.remove(),14000);
 }
-setInterval(spawnRaven,9000);
+setInterval(spawnRaven,10000);
 </script>
 
 </body>
